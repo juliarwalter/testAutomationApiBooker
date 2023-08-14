@@ -42,4 +42,34 @@ public class GetBookingTest extends TestBase {
                 .statusCode(200)
         .body("boookingid", is(notNullValue()));
     }
+    @Test
+    @DisplayName("C003: Test GetBooking - Successful request /booking?lastname: Status 200")
+    void testSuccessfulRequestLastNameBrown() {
+
+        baseURI = url;
+
+        given()
+                .contentType(ContentType.JSON)
+                .header("Authorization",  "Basic " + token)
+        .when()
+                .get(pathGetBooking + "?lastname=Brown")
+        .then()
+                .statusCode(200)
+                .body("boookingid", is(notNullValue()));
+    }
+    @Test
+    @DisplayName("C004: Test GetBooking - Successful request /booking?bookId: Status 200")
+    void testSuccessfulRequestId5() {
+
+        baseURI = url;
+
+        given()
+                .contentType(ContentType.JSON)
+                .log().all()
+                .header("Authorization",  "Basic " + token)
+        .when()
+                .get(pathGetBooking + "/5")
+        .then()
+                .statusCode(200);
+    }
 }
