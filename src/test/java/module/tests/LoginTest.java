@@ -14,7 +14,7 @@ public class LoginTest extends TestBase {
 
     User user = new User();
     @Test
-    @DisplayName("C001: Test Login - Invalid credentials: Status 401")
+    @DisplayName("C001: Test Login - Invalid credentials - username 'admin' with other password: Status 401")
     void testIncorrectPasswordLogin(){
 
         baseURI = url;
@@ -46,16 +46,36 @@ public class LoginTest extends TestBase {
     }
     @Test
     @DisplayName("C003: Test Login - Request without attribute: Status 400")
-    void testLogin(){
+    void testLoginWithOutAttribute(){
         baseURI = url;
 
         given()
+                .log().all()
                 .contentType(ContentType.TEXT)
                 .body("{}")
-                .when()
-                .put(pathLogin)
-                .then()
+        .when()
+                .post(pathLogin)
+        .then()
                 .statusCode(400);
+
+    }
+
+    @Test
+    @DisplayName("C004: Test Login - Crate a new credential: Status 201")
+    void testLoginNewCredential(){
+        baseURI = url;
+
+        user.setUsername("admin2");
+        user.setPassword("teste");
+
+        given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(user)
+        .when()
+                .post(pathLogin)
+        .then()
+                .statusCode(201);
 
     }
 }
