@@ -8,20 +8,21 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.*;
 
 public class TestBase {
-    private String token;
-    public String url = "https://restful-booker.herokuapp.com";
-    public String pathLogin = "/auth";
+    protected String token;
+    protected String url = "https://restful-booker.herokuapp.com";
+    protected String pathLogin = "/auth";
+
+    protected String pathGetBooking = "/booking";
 
     User user = new User();
 
-    @Test
     @BeforeEach
     //Method used to extract the token
     public void BeforeEach(){
         baseURI = url;
 
         this.token = given()
-                .log().all()
+                //.log().all()
                 .contentType(ContentType.JSON)
                 .body(user)
             .when()
@@ -30,6 +31,5 @@ public class TestBase {
                 //.log().body()
                 .extract()
                 .path("token");
-        System.out.println(token);
     }
 }
